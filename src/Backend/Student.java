@@ -1,4 +1,4 @@
-package lab5;
+package Backend;
 
 public class Student {
         private String name;
