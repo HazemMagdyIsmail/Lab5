@@ -1,6 +1,4 @@
-package lab5;
-
-public abstract class Person {
+public abstract class Person{
     private String name;
     private int age;
     private String gender;
@@ -20,5 +18,6 @@ public abstract class Person {
     public String getGender() {return gender;}
     public void setGender(String gender) {this.gender = gender;}
 
+    public abstract String lineRepresentation();
     public abstract String toString();
 }
