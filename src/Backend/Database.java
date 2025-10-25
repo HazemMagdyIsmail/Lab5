@@ -67,6 +67,25 @@ public class Database  {
     {
         return record.getSearchKey();
     }
+    public Student searchById(Integer id){
+        for(Student x: recordsArray){
+        if(x.getStudentID()==id){
+        return x;}
+        }
+        return null;
+    }
+    public ArrayList<Student> searchByName(String name){
+        ArrayList<Student> foundStudents=new ArrayList<>();
+        for(Student s:recordsArray){
+            if(s.getName().equals(name))
+            {
+             foundStudents.add(s);   
+            }}
+        if(foundStudents.isEmpty()){
+        return null;}
+        else return foundStudents;
+        
+    }
     public Student createRecordFrom(String line)
     {
         String [] tokens = line.split(",");
