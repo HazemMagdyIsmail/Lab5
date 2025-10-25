@@ -12,12 +12,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author El-hassan
+ * @author patrick
  */
-
 public class UpdateStudent extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UpdateStudent.class.getName());
@@ -27,14 +27,18 @@ public class UpdateStudent extends javax.swing.JFrame {
      */
     private Database DB;
     private ArrayList<Student> students = new ArrayList<>();
-    private LoginFrame parent;
-    
+    private MainFrame parent;
 
-    public UpdateStudent(Database db, LoginFrame parent) {
+    public UpdateStudent(Database db, MainFrame parent) {
         this.DB = db;
         this.parent = parent;
+
         initComponents();
-    }
+         searchStudent.setColumnSelectionAllowed(false);  // Prevent column selection
+    searchStudent.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);  // Single row selection
+    ((DefaultTableModel) searchStudent.getModel()).setRowCount(0);  // Clear dummy rows
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,6 +69,7 @@ public class UpdateStudent extends javax.swing.JFrame {
         updDep = new javax.swing.JTextField();
         updAge = new javax.swing.JTextField();
         updGpa = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -144,6 +149,19 @@ public class UpdateStudent extends javax.swing.JFrame {
             }
         });
 
+        updGpa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updGpaActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,6 +203,10 @@ public class UpdateStudent extends javax.swing.JFrame {
                             .addComponent(updatebtn))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(459, 459, 459)
+                        .addComponent(jButton1)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -206,7 +228,7 @@ public class UpdateStudent extends javax.swing.JFrame {
                         .addComponent(jLabel2)))
                 .addGap(36, 36, 36)
                 .addComponent(deletebtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(updID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -228,7 +250,9 @@ public class UpdateStudent extends javax.swing.JFrame {
                     .addComponent(updGpa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(updatebtn)
-                .addGap(47, 47, 47))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -238,67 +262,164 @@ public class UpdateStudent extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_searchNameActionPerformed
-
     private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
-        int selectedRow=searchStudent.getSelectedRow();
-        int studentId =Integer.parseInt((String) searchStudent.getValueAt(selectedRow, 0));
- String name;
-    int age;
-    String gender;
-    int ID;
-    String department;
-    double gpa;
-        if (index != -1) {
-            Student s = students.get(index);
-            try {
+        int selectedRow = searchStudent.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a student to update.");
+            return;
+        }
+         Object value = searchStudent.getValueAt(selectedRow, 0);
+  if (value == null || value.toString().trim().isEmpty()) {
+      JOptionPane.showMessageDialog(this, "Selected row is invalid (no data). Please search and select a valid student.");
+      return;
+  }
+        int studentId = Integer.parseInt((String) searchStudent.getValueAt(selectedRow, 0));
+        Student s = DB.searchById(studentId);
+        if (s == null) {
+            JOptionPane.showMessageDialog(this, "Student not found.");
+            return;
+        }
+        String name = s.getName();
+        int age = s.getAge();
+        int id = s.getStudentID();
+        String department = s.getDepartment();
+        double gpa = s.getGpa();
+
 //updateId
-                if (!updID.getText().isEmpty()) {
-
-                    s.setStudentID(Integer.parseInt(updID.getText()));
-                } else {
-
-
-
+        if (!updID.getText().isEmpty()) {
+            try {
+                id = Integer.parseInt(updID.getText());
+                if (id < 0) {
+                    JOptionPane.showMessageDialog(this, "Error: Invalid ID (must be non-negative).");
+                    return;
                 }
-
-                DB.updateRecord(s.getStudentID());
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(UpdateStudent.class.getName()).log(Level.SEVERE, null, ex);
+                if (DB.contains(id) && id != s.getStudentID()) {
+                    JOptionPane.showMessageDialog(this, "ID already exists");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error Invalid id(must be a number)");
             }
         }
-    
+        if (!updName.getText().isEmpty()) {
+            if (!updName.getText().matches("^[A-Za-z]{3,}$")) {
+                JOptionPane.showMessageDialog(this, "Error: Invalid Name(at least 3 letters, no numbers).");
+                return;
+            }
+            name = updName.getText();
+        }
+        if (!updAge.getText().isEmpty()) {
+            try {
+
+                age = Integer.parseInt(updAge.getText());
+
+                if (age > 25 || age < 17) {
+
+                    JOptionPane.showMessageDialog(this, "Error Invalid age");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error Invalid age (must be a number).");
+            }
+        }
+        if (!updDep.getText().isEmpty()) {
+            if (!updDep.getText().matches("^[A-Za-z]{3,}$")) {
+                JOptionPane.showMessageDialog(this, "Error: Invalid Department");
+                return;
+            }
+            department = updDep.getText();
+
+        }
+        if (!updGpa.getText().isEmpty()) {
+            try {
+
+                gpa = Double.parseDouble(updGpa.getText());
+                if (gpa > 4 || gpa < 0) {
+                    JOptionPane.showMessageDialog(this, "Error Invalid Gpa (must be between 0 and 4).");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error Invalid id (must be a number).");
+            }
+        }
+        try {
+
+            DB.updateRecord(id, name, age, department, gpa, studentId);
+            JOptionPane.showMessageDialog(this, "Student updated successfully.");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UpdateStudent.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error updating student: File not found.");
+        }
+
 
     }//GEN-LAST:event_updatebtnActionPerformed
 
     private void deletebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletebtnActionPerformed
         // TODO add your handling code here:
-        int index = searchStudent.getSelectedRow();
-        if (index != -1) {
-            Student s = students.get(index);
-            try {
-                DB.deleteRecord(s.getStudentID());
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(UpdateStudent.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        int selectedRow = searchStudent.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a student to delete.");
+            return;
         }
+         Object value = searchStudent.getValueAt(selectedRow, 0);
+  if (value == null || value.toString().trim().isEmpty()) {
+      JOptionPane.showMessageDialog(this, "Selected row is invalid (no data). Please search and select a valid student.");
+      return;
+  }
+        int studentId = Integer.parseInt((String) searchStudent.getValueAt(selectedRow, 0));
+
+        Student s = DB.searchById(studentId);
+        if (s == null) {
+            JOptionPane.showMessageDialog(this, "Student not found.");
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this student?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+        try {
+            DB.deleteRecord(s.getStudentID());
+            JOptionPane.showMessageDialog(this, "Student deleted successfully.");
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UpdateStudent.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error deleting student: File not found.");
+
+        }
+
     }//GEN-LAST:event_deletebtnActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
         DefaultTableModel m = (DefaultTableModel) searchStudent.getModel();
+        m.setRowCount(0);  // Clear previous results
 
         if (!searchID.getText().isEmpty()) {
+            try{
             int SearchID = Integer.parseInt(searchID.getText().trim());
             Student s = DB.searchById(SearchID);
+            if(s !=null){
             m.addRow(new Object[]{s.getStudentID(), s.getName(), s.getAge(), s.getGender(), s.getDepartment(), s.getGpa()});
-        } else if (!searchName.getText().isEmpty()) {
-            students = DB.searchByName(searchName.getText());
+        } else  {
+                                    JOptionPane.showMessageDialog(this, "No student found with that ID.");
+
+            }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid ID: Must be a number.");
+            }
+        }else if(!searchName.getText().isEmpty()){
+            students = DB.searchByName(searchName.getText().trim());
+             if (students.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No students found with that name.");
+            } else {
             for (int i = 0; i < students.size(); i++) {
                 Student s = students.get(i);
                 m.addRow(new Object[]{s.getStudentID(), s.getName(), s.getAge(), s.getGender(), s.getDepartment(), s.getGpa()});
 
             }
         }
+        }else{
+        JOptionPane.showMessageDialog(this, "Please enter an ID or Name to search.");}
 
     }//GEN-LAST:event_searchActionPerformed
 
@@ -313,14 +434,21 @@ public class UpdateStudent extends javax.swing.JFrame {
     private void updAgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updAgeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_updAgeActionPerformed
-    public void load(JTextField ID) {
-    DefaultTableModel m = (DefaultTableModel) searchStudent.getModel();
 
-}
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        parent.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void updGpaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updGpaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updGpaActionPerformed
+  
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton deletebtn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

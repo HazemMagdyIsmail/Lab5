@@ -1,5 +1,1 @@
-1,shiko,20,Male,compu,3.0
-2,sssddssd,20,Female,sjs,3.5
-33,hazem,25,Male,eng,3.0
-8,haz,22,Male,compu,4.0
--1,sds,-1,Female,sss,-1.0
+
