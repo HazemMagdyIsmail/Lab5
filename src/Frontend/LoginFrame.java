@@ -8,8 +8,11 @@ package Frontend;
  *
  * @author El-hassan
  */
+import Backend.*;
+import java.io.FileNotFoundException;
+
 public class LoginFrame extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginFrame.class.getName());
 
     /**
@@ -94,25 +97,30 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         String user = jTextField1.getText();
-    String pass = new String(jPasswordField1.getPassword());
-    
-    if (user.equals("admin") && pass.equals("admin")) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Login Successful!");
-        new MainFrame().setVisible(true);
-        this.dispose();
-    } else {
-        javax.swing.JOptionPane.showMessageDialog(this, "Invalid username or password");
-    }
+        String user = jTextField1.getText();
+        String pass = new String(jPasswordField1.getPassword());
+        if (user.equals("admin") && pass.equals("admin")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Login Successful!");
+            try {
+                Database DB = new Database("database.txt");
+                new MainFrame(DB,this).setVisible(true);
+                this.dispose();
+            } catch (FileNotFoundException ex) {
+                System.getLogger(LoginFrame.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Invalid username or password");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-     java.awt.EventQueue.invokeLater(() -> {
-        new LoginFrame().setVisible(true);
-    });
+        java.awt.EventQueue.invokeLater(() -> {
+            new LoginFrame().setVisible(true);
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
