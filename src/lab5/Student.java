@@ -22,6 +22,12 @@ public class Student extends Person {
     public void setStudentID(int studentID) {StudentID = studentID;}
 
     @Override
+    public String lineRepresentation() {
+        return StudentID + "," + getName() + "," + getAge() + "," +
+                getGender() + "," + department + "," + gpa;
+    }
+
+    @Override
     public String toString(){
           return "ID: " + StudentID + ", Name: " + getName() + ", Age: " + getAge() +
                 ", Gender: " + getGender() + ", Dept: " + department + ", GPA: " + gpa;
