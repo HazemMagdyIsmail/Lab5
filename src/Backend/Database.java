@@ -1,11 +1,11 @@
-package lab5;
+package Backend;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public abstract class Database<T extends Record> {
-    private ArrayList<T> recordsArray;
+public class Database  {
+    private ArrayList<Student> recordsArray;
     private String filename;
 
     public Database(String filename) throws FileNotFoundException {
@@ -14,7 +14,7 @@ public abstract class Database<T extends Record> {
         readFromFile();
     }
 
-    public void insertRecord(T record) throws FileNotFoundException {
+    public void insertRecord(Student record) throws FileNotFoundException {
         recordsArray.add(record);
         saveToFile();
     }
@@ -29,7 +29,7 @@ public abstract class Database<T extends Record> {
         saveToFile();
     }
 
-    public ArrayList<T> returnAllRecords() {
+    public ArrayList<Student> returnAllRecords() {
         return recordsArray;
     }
 
@@ -37,7 +37,7 @@ public abstract class Database<T extends Record> {
         return filename;
     }
 
-    public ArrayList<T> getRecordsArray() {
+    public ArrayList<Student> getRecordsArray() {
         return recordsArray;
     }
 
@@ -63,6 +63,19 @@ public abstract class Database<T extends Record> {
         writer.close();
     }
 
-    abstract String getKey(T record);
-    abstract T createRecordFrom(String line);
+    public String getKey(Student record)
+    {
+        return record.getSearchKey();
+    }
+    public Student createRecordFrom(String line)
+    {
+        String [] tokens = line.split(",");
+        int id = Integer.parseInt(tokens[0]);
+        String name = tokens[1];
+        int age = Integer.parseInt(tokens[2]);
+        String gender = tokens[3];
+        String dep = tokens[4];
+        double gpa = Double.parseDouble(tokens[5]);
+        return new Student(id, name, age, gender, dep, gpa);
+    }
 }
