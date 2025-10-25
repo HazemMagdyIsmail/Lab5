@@ -1,4 +1,5 @@
-public abstract class Person{
+package lab5;
+public abstract class Person implements Record{
     private String name;
     private int age;
     private String gender;

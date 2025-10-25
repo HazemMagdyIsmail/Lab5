@@ -21,6 +21,10 @@ public class Student extends Person {
     public int getStudentID() {return StudentID;}
     public void setStudentID(int studentID) {StudentID = studentID;}
 
+    public String getSearchKey() {
+        return Integer.toString(StudentID);
+    }
+
     @Override
     public String lineRepresentation() {
         return StudentID + "," + getName() + "," + getAge() + "," +
@@ -29,7 +33,7 @@ public class Student extends Person {
 
     @Override
     public String toString(){
-          return "ID: " + StudentID + ", Name: " + getName() + ", Age: " + getAge() +
+        return "ID: " + StudentID + ", Name: " + getName() + ", Age: " + getAge() +
                 ", Gender: " + getGender() + ", Dept: " + department + ", GPA: " + gpa;
     }
 }
