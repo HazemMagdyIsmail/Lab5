@@ -4,7 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Database  {
+public class Database {
+
     private ArrayList<Student> recordsArray;
     private String filename;
 
@@ -43,7 +44,9 @@ public class Database  {
 
     public void readFromFile() throws FileNotFoundException {
         File F = new File(filename);
-        if (!F.exists()) return;
+        if (!F.exists()) {
+            return;
+        }
 
         Scanner s = new Scanner(F);
         recordsArray.clear();
@@ -63,32 +66,45 @@ public class Database  {
         writer.close();
     }
 
-    public String getKey(Student record)
-    {
+    public String getKey(Student record) {
         return record.getSearchKey();
     }
-    public Student searchById(Integer id){
-        for(Student x: recordsArray){
-        if(x.getStudentID()==id){
-        return x;}
+
+    public Student searchById(int id) {
+        for (Student x : recordsArray) {
+            if (x.getStudentID() == id) {
+                return x;
+            }
         }
         return null;
     }
-    public ArrayList<Student> searchByName(String name){
-        ArrayList<Student> foundStudents=new ArrayList<>();
-        for(Student s:recordsArray){
-            if(s.getName().equals(name))
-            {
-             foundStudents.add(s);   
-            }}
-        if(foundStudents.isEmpty()){
-        return null;}
-        else return foundStudents;
-        
+
+    public boolean contains(int id) {
+        for (Student s : recordsArray) {
+            if (s.getStudentID() == id) {
+                return true;
+            }
+        }
+        return false;
     }
-    public Student createRecordFrom(String line)
-    {
-        String [] tokens = line.split(",");
+
+    public ArrayList<Student> searchByName(String name) {
+        ArrayList<Student> foundStudents = new ArrayList<>();
+        for (Student s : recordsArray) {
+            if (s.getName().equals(name)) {
+                foundStudents.add(s);
+            }
+        }
+        if (foundStudents.isEmpty()) {
+            return null;
+        } else {
+            return foundStudents;
+        }
+
+    }
+
+    public Student createRecordFrom(String line) {
+        String[] tokens = line.split(",");
         int id = Integer.parseInt(tokens[0]);
         String name = tokens[1];
         int age = Integer.parseInt(tokens[2]);
