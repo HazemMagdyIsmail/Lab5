@@ -20,10 +20,33 @@ public class Database {
         saveToFile();
     }
 
-    public void deleteRecord(String key) throws FileNotFoundException {
+    public void deleteRecord(int key) throws FileNotFoundException {
         for (int i = 0; i < recordsArray.size(); i++) {
-            if (key.equals(getKey(recordsArray.get(i)))) {
+            if (getKey(recordsArray.get(i)) == key) {
                 recordsArray.remove(i);
+                break;
+            }
+        }
+        saveToFile();
+    }
+
+    public void updateRecord(int ID, String name, int age, String department, double gpa,int oldID ) throws FileNotFoundException {
+       for (int i = 0; i < recordsArray.size(); i++) {
+            if (getKey(recordsArray.get(i)) == oldID) {
+                recordsArray.get(i).setAge(age);
+                recordsArray.get(i).setStudentID(ID);
+                recordsArray.get(i).setDepartment(department);
+                recordsArray.get(i).setGpa(gpa);
+                recordsArray.get(i).setName(name);
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 break;
             }
         }
@@ -66,8 +89,8 @@ public class Database {
         writer.close();
     }
 
-    public String getKey(Student record) {
-        return record.getSearchKey();
+    public int getKey(Student record) {
+        return record.getStudentID();
     }
 
     public Student searchById(int id) {

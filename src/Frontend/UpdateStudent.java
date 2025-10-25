@@ -8,24 +8,31 @@ import Backend.Database;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import Backend.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author El-hassan
  */
+
 public class UpdateStudent extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(UpdateStudent.class.getName());
 
     /**
      * Creates new form UpdateStudent
      */
-           private Database DB;
+    private Database DB;
+    private ArrayList<Student> students = new ArrayList<>();
     private LoginFrame parent;
-    public UpdateStudent(Database db,LoginFrame parent) {
-        this.DB=db;
-        this.parent=parent;
+    
+
+    public UpdateStudent(Database db, LoginFrame parent) {
+        this.DB = db;
+        this.parent = parent;
         initComponents();
     }
 
@@ -43,11 +50,21 @@ public class UpdateStudent extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         searchStudent = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        updatebtn = new javax.swing.JButton();
+        deletebtn = new javax.swing.JButton();
         search = new javax.swing.JButton();
         searchID = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        updID = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        updName = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        updDep = new javax.swing.JTextField();
+        updAge = new javax.swing.JTextField();
+        updGpa = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,19 +89,21 @@ public class UpdateStudent extends javax.swing.JFrame {
                 "Student(Id)", "Name", "Age", "Gender", "Department", "Gpa"
             }
         ));
+        searchStudent.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(searchStudent);
+        searchStudent.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        jButton1.setText("Update");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        updatebtn.setText("Update");
+        updatebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                updatebtnActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Delete");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        deletebtn.setText("Delete");
+        deletebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                deletebtnActionPerformed(evt);
             }
         });
 
@@ -103,6 +122,28 @@ public class UpdateStudent extends javax.swing.JFrame {
 
         jLabel3.setText("Enter Name");
 
+        jLabel4.setText("Gpa");
+
+        updID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updIDActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Name");
+
+        jLabel6.setText("Student ID");
+
+        jLabel7.setText("Department");
+
+        jLabel8.setText("Age");
+
+        updAge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updAgeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,54 +153,82 @@ public class UpdateStudent extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchID, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(45, 45, 45)
+                .addGap(30, 30, 30)
                 .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(search)
                 .addGap(31, 31, 31))
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(35, 35, 35))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(updAge, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(updName, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(updDep, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(updGpa, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(updID, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(deletebtn)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(updatebtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(search)
+                            .addComponent(searchID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(33, 33, 33)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(120, 120, 120)
-                        .addComponent(jLabel2)
-                        .addGap(80, 80, 80))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(search)
-                                    .addComponent(searchID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)))
+                        .addComponent(jLabel2)))
+                .addGap(36, 36, 36)
+                .addComponent(deletebtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(228, Short.MAX_VALUE))
+                    .addComponent(jLabel6)
+                    .addComponent(updID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(updAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(updDep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(updGpa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(updatebtn)
+                .addGap(47, 47, 47))
         );
 
         pack();
@@ -167,81 +236,109 @@ public class UpdateStudent extends javax.swing.JFrame {
 
     private void searchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNameActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_searchNameActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
+        int selectedRow=searchStudent.getSelectedRow();
+        int studentId =Integer.parseInt((String) searchStudent.getValueAt(selectedRow, 0));
+ String name;
+    int age;
+    String gender;
+    int ID;
+    String department;
+    double gpa;
+        if (index != -1) {
+            Student s = students.get(index);
+            try {
+//updateId
+                if (!updID.getText().isEmpty()) {
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+                    s.setStudentID(Integer.parseInt(updID.getText()));
+                } else {
+
+
+
+                }
+
+                DB.updateRecord(s.getStudentID());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(UpdateStudent.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    
+
+    }//GEN-LAST:event_updatebtnActionPerformed
+
+    private void deletebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletebtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        int index = searchStudent.getSelectedRow();
+        if (index != -1) {
+            Student s = students.get(index);
+            try {
+                DB.deleteRecord(s.getStudentID());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(UpdateStudent.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_deletebtnActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
-         DefaultTableModel m = (DefaultTableModel) searchStudent.getModel();
+        DefaultTableModel m = (DefaultTableModel) searchStudent.getModel();
 
-        if(!searchID.getText().isEmpty()){
-        int SearchID=Integer.parseInt(searchID.getText().trim());
-        Student s=DB.searchById(SearchID);
-        m.addRow(new Object[]{s.getStudentID(), s.getName(), s.getAge(), s.getGender(), s.getDepartment(), s.getGpa()});        }
-        else if(!searchName.getText().isEmpty()){
-            ArrayList<Student> foundStudents=new ArrayList<>();
-            foundStudents=DB.searchByName(searchName.getText());
-              for (int i = 0; i < foundStudents.size(); i++) {
-            Student s = foundStudents.get(i);
+        if (!searchID.getText().isEmpty()) {
+            int SearchID = Integer.parseInt(searchID.getText().trim());
+            Student s = DB.searchById(SearchID);
             m.addRow(new Object[]{s.getStudentID(), s.getName(), s.getAge(), s.getGender(), s.getDepartment(), s.getGpa()});
+        } else if (!searchName.getText().isEmpty()) {
+            students = DB.searchByName(searchName.getText());
+            for (int i = 0; i < students.size(); i++) {
+                Student s = students.get(i);
+                m.addRow(new Object[]{s.getStudentID(), s.getName(), s.getAge(), s.getGender(), s.getDepartment(), s.getGpa()});
 
+            }
         }
-        }
-       
+
     }//GEN-LAST:event_searchActionPerformed
 
     private void searchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchIDActionPerformed
-public void load(JTextField ID){
-            DefaultTableModel m = (DefaultTableModel) searchStudent.getModel();
-            
+
+    private void updIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updIDActionPerformed
+
+    private void updAgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updAgeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updAgeActionPerformed
+    public void load(JTextField ID) {
+    DefaultTableModel m = (DefaultTableModel) searchStudent.getModel();
 
 }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new UpdateStudent().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton deletebtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton search;
     private javax.swing.JTextField searchID;
     private javax.swing.JTextField searchName;
     private javax.swing.JTable searchStudent;
-    jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    private javax.swing.JTextField updAge;
+    private javax.swing.JTextField updDep;
+    private javax.swing.JTextField updGpa;
+    private javax.swing.JTextField updID;
+    private javax.swing.JTextField updName;
+    private javax.swing.JButton updatebtn;
     // End of variables declaration//GEN-END:variables
 }
