@@ -1,12 +1,18 @@
 package lab5;
 
-public class Student extends Person {
+public class Student {
+        private String name;
+    private int age;
+    private String gender;
     private int StudentID;
     private String department;
     private double gpa;
 
+
     public Student(int studentID, String name, int age, String gender, String department, double gpa) {
-        super(name, age, gender);
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
         this.StudentID = studentID;
         this.department = department;
         this.gpa = gpa;
@@ -24,9 +30,18 @@ public class Student extends Person {
     public String getSearchKey() {
         return Integer.toString(StudentID);
     }
+    
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
 
-    @Override
-    public String lineRepresentation() {
+    public int getAge() {return age;}
+    public void setAge(int age) {this.age = age;}
+
+    public String getGender() {return gender;}
+    public void setGender(String gender) {this.gender = gender;}
+
+
+     public String lineRepresentation() {
         return StudentID + "," + getName() + "," + getAge() + "," +
                 getGender() + "," + department + "," + gpa;
     }
