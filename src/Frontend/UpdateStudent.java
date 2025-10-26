@@ -273,7 +273,7 @@ public class UpdateStudent extends javax.swing.JFrame {
       JOptionPane.showMessageDialog(this, "Selected row is invalid (no data). Please search and select a valid student.");
       return;
   }
-        int studentId = Integer.parseInt((String) searchStudent.getValueAt(selectedRow, 0));
+        int studentId = (Integer) searchStudent.getValueAt(selectedRow, 0); 
         Student s = DB.searchById(studentId);
         if (s == null) {
             JOptionPane.showMessageDialog(this, "Student not found.");
@@ -366,7 +366,7 @@ public class UpdateStudent extends javax.swing.JFrame {
       JOptionPane.showMessageDialog(this, "Selected row is invalid (no data). Please search and select a valid student.");
       return;
   }
-        int studentId = Integer.parseInt((String) searchStudent.getValueAt(selectedRow, 0));
+        int studentId = (Integer) searchStudent.getValueAt(selectedRow, 0);
 
         Student s = DB.searchById(studentId);
         if (s == null) {
