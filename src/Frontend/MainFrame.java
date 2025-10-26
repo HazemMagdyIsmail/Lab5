@@ -137,11 +137,17 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+<<<<<<< Updated upstream
         UpdateStudent U=new UpdateStudent(DB, this);
         this.setVisible(false);
         U.setVisible(true);
         
         
+=======
+        UpdateStudent s = new UpdateStudent(DB, this);
+        this.setVisible(false);
+        s.setVisible(true);
+>>>>>>> Stashed changes
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
