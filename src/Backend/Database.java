@@ -114,7 +114,7 @@ public class Database {
     public ArrayList<Student> searchByName(String name) {
         ArrayList<Student> foundStudents = new ArrayList<>();
         for (Student s : recordsArray) {
-            if (s.getName().equals(name)) {
+            if (s.getName().toLowerCase().startsWith(name.toLowerCase())) {
                 foundStudents.add(s);
             }
         }
