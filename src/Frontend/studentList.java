@@ -25,7 +25,9 @@ public class studentList extends javax.swing.JFrame {
         this.DB = DB;
         this.parent = parent;
         initComponents();
+        setLocationRelativeTo(null);
         loadTable();
+        
     }
 
     public void loadTable() {

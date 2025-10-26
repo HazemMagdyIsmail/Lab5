@@ -1,6 +1,2 @@
-
-123,patrick,19,Male,engg,3.45
-9354,patricoo,22,Male,eng,3.3
-9355,patrrr,20,Male,comp,3.5
-9855,PAtr,20,Male,cmp,3.0
-
+9258,Hazem,23,Male,compu,3.79
+9354,Patrick,25,Male,compu,3.0
