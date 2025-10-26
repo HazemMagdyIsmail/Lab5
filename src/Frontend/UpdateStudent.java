@@ -34,7 +34,10 @@ public class UpdateStudent extends javax.swing.JFrame {
         this.parent = parent;
 
         initComponents();
-         searchStudent.setColumnSelectionAllowed(false);  // Prevent column selection
+         searchStudent.setColumnSelectionAllowed(false);  
+// Prevent column selection
+//searchStudent.setCellSelectionEnabled(false); 
+searchStudent.setDefaultEditor(Object.class, null);
     searchStudent.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);  // Single row selection
     ((DefaultTableModel) searchStudent.getModel()).setRowCount(0);  // Clear dummy rows
 }
@@ -263,6 +266,7 @@ public class UpdateStudent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_searchNameActionPerformed
     private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
+       
         int selectedRow = searchStudent.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a student to update.");
