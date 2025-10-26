@@ -1,4 +1,4 @@
-1234,John Doe,20,Male,Computer Science,3.5
 12345,hazem,22,Male,computer,3.9
 9354,patricoo,20,Male,mecha,3.4
 9258,hazem,20,Male,compu,3.9
+123,john,20,Male,eng,3.4

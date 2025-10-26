@@ -299,6 +299,7 @@ public class UpdateStudent extends javax.swing.JFrame {
                 }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Error Invalid id(must be a number)");
+                return;
             }
         }
         if (!updName.getText().isEmpty()) {
@@ -320,6 +321,7 @@ public class UpdateStudent extends javax.swing.JFrame {
                 }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Error Invalid age (must be a number).");
+                return;
             }
         }
         if (!updDep.getText().isEmpty()) {
@@ -340,6 +342,7 @@ public class UpdateStudent extends javax.swing.JFrame {
                 }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Error Invalid id (must be a number).");
+                return;
             }
         }
         try {
