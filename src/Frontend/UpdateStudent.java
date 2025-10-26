@@ -345,7 +345,7 @@ searchStudent.setDefaultEditor(Object.class, null);
                     return;
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Error Invalid id (must be a number).");
+                JOptionPane.showMessageDialog(this, "Error Invalid Gpa (must be between 0 and 4).");
                 return;
             }
         }
