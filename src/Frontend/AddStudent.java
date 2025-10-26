@@ -227,22 +227,10 @@ public class AddStudent extends javax.swing.JFrame {
         int id=-1;
         int age=-1 ;
         double gpa=-1;
-        if (Male.isSelected()) {
-            Gender = "Male";
-        } else if (female.isSelected()) {
-            Gender = "Female";
-        } else {
-            JOptionPane.showMessageDialog(this, "Choose Gender");
-            return;
-        }
-
+       
         
 
-        if (!dep.matches("^[A-Za-z]{3,}$")) {
-            JOptionPane.showMessageDialog(this, "Error: Invalid Department");
-            return;
-        }
-
+        
         try {
             id = Integer.parseInt(idInput.getText());
             if(id<0){
@@ -255,6 +243,7 @@ public class AddStudent extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error Invalid id");
+            return;
         }
         
         if (!Name.matches("^[A-Za-z]{3,}$")) {
@@ -275,6 +264,21 @@ public class AddStudent extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error Invalid age");
+            return;
+        }
+        
+         if (Male.isSelected()) {
+            Gender = "Male";
+        } else if (female.isSelected()) {
+            Gender = "Female";
+        } else {
+            JOptionPane.showMessageDialog(this, "Choose Gender");
+            return;
+        }
+
+        if (!dep.matches("^[A-Za-z]{3,}$")) {
+            JOptionPane.showMessageDialog(this, "Error: Invalid Department");
+            return;
         }
         try {
 
@@ -284,7 +288,8 @@ public class AddStudent extends javax.swing.JFrame {
                 return;
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error Invalid id");
+            JOptionPane.showMessageDialog(this, "Error Invalid gpa");
+            return;
         }
 
         Student s = new Student(id, Name, age, Gender, dep, gpa);
