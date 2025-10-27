@@ -312,7 +312,7 @@ searchStudent.setDefaultEditor(Object.class, null);
             }
         }
         if (!updName.getText().isEmpty()) {
-            if (!updName.getText().matches("^[A-Za-z]{3,}$")) {
+            if (!updName.getText().matches("^([A-Za-z]{3,})(\\s[A-Za-z]{3,})?$")) {
                 JOptionPane.showMessageDialog(this, "Error: Invalid Name(at least 3 letters, no numbers).");
                 return;
             }
@@ -323,7 +323,7 @@ searchStudent.setDefaultEditor(Object.class, null);
 
                 age = Integer.parseInt(updAge.getText());
 
-                if (age > 25 || age < 17) {
+                if (age > 30 || age < 15) {
 
                     JOptionPane.showMessageDialog(this, "Error Invalid age");
                     return;

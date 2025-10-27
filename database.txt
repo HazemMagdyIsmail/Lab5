@@ -1,2 +1,2 @@
-9258,Hazem,23,Male,compu,3.79
-9354,Patrick,25,Male,compu,3.0
+9258,Hazem Magdy,18,Male,compu,3.8
+9354,patrick fady,20,Male,eng,4.0

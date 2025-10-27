@@ -258,7 +258,7 @@ public class AddStudent extends javax.swing.JFrame {
             return;
         }
         
-        if (!Name.matches("^[A-Za-z]{3,}$")) {
+        if (!Name.matches("^([A-Za-z]{3,})(\\s[A-Za-z]{3,})?$")) {
             JOptionPane.showMessageDialog(this, "Error: Invalid Name");
             return;
         }
@@ -269,7 +269,7 @@ public class AddStudent extends javax.swing.JFrame {
 
             age = Integer.parseInt(ageInput.getText());
 
-            if (age > 25 || age < 17) {
+            if (age > 30 || age < 15) {
 
                 JOptionPane.showMessageDialog(this, "Error Invalid age");
                 return;
